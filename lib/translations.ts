@@ -3,13 +3,54 @@
 
 export type Lang = 'en' | 'ru' | 'hy'
 
+export const locales: Lang[] = ['en', 'ru', 'hy']
+
 export const languages: { code: Lang; label: string }[] = [
   { code: 'en', label: 'EN' },
   { code: 'ru', label: 'RU' },
   { code: 'hy', label: 'HY' },
 ]
 
+export function hasLocale(locale: string): locale is Lang {
+  return (locales as string[]).includes(locale)
+}
+
 export const t = {
+  // Search-engine / link-preview text. Unlike the page copy, these are plain
+  // descriptive lines, so RU/HY are filled in — reword freely.
+  meta: {
+    site: {
+      en: 'Handmade dolls with soul — one of a kind. Dolls, theatre and digital art.',
+      ru: 'Куклы ручной работы с душой — единственные в своём роде. Куклы, театр и цифровое искусство.',
+      hy: 'Հոգի ունեցող ձեռագործ տիկնիկներ՝ եզակի իրենց տեսակի մեջ։ Տիկնիկներ, թատրոն և թվային արվեստ։',
+    },
+    dolls: {
+      en: 'One-of-a-kind handmade art dolls — sculpted, painted and dressed entirely by hand. See how each doll is made.',
+      ru: 'Уникальные авторские куклы ручной работы — вылеплены, расписаны и одеты вручную. Посмотрите, как создаётся каждая кукла.',
+      hy: 'Եզակի ձեռագործ տիկնիկներ՝ ամբողջությամբ ձեռքով քանդակված, նկարված և հագցված։ Տեսեք, թե ինչպես է ստեղծվում ամեն տիկնիկ։',
+    },
+    theatre: {
+      en: 'Work made for the stage: characters, presence, and collaboration.',
+      ru: 'Работы для сцены: персонажи, присутствие и сотрудничество.',
+      hy: 'Բեմի համար ստեղծված աշխատանքներ՝ կերպարներ, ներկայություն և համագործակցություն։',
+    },
+    digital: {
+      en: 'Illustrations and drawings, where my characters first take shape.',
+      ru: 'Иллюстрации и рисунки, где мои персонажи впервые обретают форму.',
+      hy: 'Նկարազարդումներ և գծանկարներ, որտեղ իմ կերպարներն առաջին անգամ կերպարանք են ստանում։',
+    },
+    about: {
+      en: 'The artist behind Soul of a Doll — doll-making, theatre and digital art.',
+      ru: 'Автор Soul of a Doll — куклы, театр и цифровое искусство.',
+      hy: 'Soul of a Doll-ի հեղինակը՝ տիկնիկագործություն, թատրոն և թվային արվեստ։',
+    },
+    contact: {
+      en: 'Get in touch — commissions and questions.',
+      ru: 'Свяжитесь со мной — заказы и вопросы.',
+      hy: 'Կապվեք ինձ հետ՝ պատվերներ և հարցեր։',
+    },
+  },
+
   nav: {
     dolls: { en: 'Dolls', ru: 'Куклы', hy: 'Տիկնիկներ' },
     theatre: { en: 'Theatre', ru: 'Театр', hy: 'Թատրոն' },

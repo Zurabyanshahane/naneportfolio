@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Soul of a Doll</title>
+    <!--
+      Fallback language chooser for the bare "/" URL.
+      On Netlify the redirects in netlify.toml normally handle this first;
+      this page covers local dev and any host without redirect support.
+    -->
+    <meta name="robots" content="noindex" />
+    <script>
+      var supported = ['en', 'ru', 'hy']
+      var langs = navigator.languages || [navigator.language || 'en']
+      var match
+      for (var i = 0; i < langs.length && !match; i++) {
+        var code = String(langs[i]).slice(0, 2).toLowerCase()
+        if (supported.indexOf(code) !== -1) match = code
+      }
+      location.replace('/' + (match || 'en'))
+    </script>
+    <meta http-equiv="refresh" content="1;url=/en" />
+  </head>
+  <body style="font-family: sans-serif; padding: 2rem; text-align: center">
+    <p>
+      <a href="/en">English</a> · <a href="/ru">Русский</a> ·
+      <a href="/hy">Հայերեն</a>
+    </p>
+  </body>
+</html>

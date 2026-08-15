@@ -1,14 +1,16 @@
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import {
   Cormorant_Garamond,
   Inter,
   Noto_Serif_Armenian,
   Noto_Sans_Armenian,
 } from 'next/font/google'
-import './globals.css'
-import { LanguageProvider } from '@/lib/LanguageContext'
+import '../globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import { hasLocale, locales, t } from '@/lib/translations'
+import { SITE_URL } from '@/lib/seo'
 
 // Headline serif — covers Latin + Cyrillic
 const heading = Cormorant_Garamond({
@@ -36,32 +38,42 @@ const bodyArm = Noto_Sans_Armenian({
   variable: '--font-body-arm',
 })
 
-export const metadata: Metadata = {
-  title: 'Soul of a Doll',
-  description: 'Handmade dolls with soul — one of a kind. Dolls, theatre and digital art.',
+export function generateStaticParams() {
+  return locales.map((lang) => ({ lang }))
 }
 
-export default function RootLayout({
+export async function generateMetadata({
+  params,
+}: LayoutProps<'/[lang]'>): Promise<Metadata> {
+  const { lang } = await params
+  if (!hasLocale(lang)) notFound()
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: 'Soul of a Doll',
+      template: '%s · Soul of a Doll',
+    },
+    description: t.meta.site[lang],
+  }
+}
+
+export default async function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+  params,
+}: LayoutProps<'/[lang]'>) {
+  const { lang } = await params
+  if (!hasLocale(lang)) notFound()
+
   return (
     <html
-      lang="en"
+      lang={lang}
       className={`${heading.variable} ${headingArm.variable} ${body.variable} ${bodyArm.variable}`}
-      style={{
-        // Fallback chain: the Armenian font kicks in automatically for Armenian characters
-        ['--font-heading' as string]: 'var(--font-heading-latin), var(--font-heading-arm)',
-        ['--font-body' as string]: 'var(--font-body-latin), var(--font-body-arm)',
-      }}
     >
       <body>
-        <LanguageProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </LanguageProvider>
+        <Header lang={lang} />
+        <main>{children}</main>
+        <Footer lang={lang} />
       </body>
     </html>
   )

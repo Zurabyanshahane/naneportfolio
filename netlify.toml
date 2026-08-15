@@ -1,3 +1,61 @@
 [build]
   command = "npm run build"
   publish = "out"
+
+# Send visitors of the bare "/" to their language (Accept-Language header).
+# Order matters: first matching rule wins; English is the fallback.
+[[redirects]]
+  from = "/"
+  to = "/ru"
+  status = 302
+  force = true
+  conditions = { Language = ["ru"] }
+
+[[redirects]]
+  from = "/"
+  to = "/hy"
+  status = 302
+  force = true
+  conditions = { Language = ["hy"] }
+
+[[redirects]]
+  from = "/"
+  to = "/en"
+  status = 302
+  force = true
+
+# Old pre-i18n URLs → English versions (site was briefly live without locales)
+[[redirects]]
+  from = "/dolls"
+  to = "/en/dolls"
+  status = 301
+
+[[redirects]]
+  from = "/theatre"
+  to = "/en/theatre"
+  status = 301
+
+[[redirects]]
+  from = "/digital-art"
+  to = "/en/digital-art"
+  status = 301
+
+[[redirects]]
+  from = "/about"
+  to = "/en/about"
+  status = 301
+
+[[redirects]]
+  from = "/contact"
+  to = "/en/contact"
+  status = 301
+
+[[redirects]]
+  from = "/imprint"
+  to = "/en/imprint"
+  status = 301
+
+[[redirects]]
+  from = "/privacy"
+  to = "/en/privacy"
+  status = 301

@@ -1,78 +1,67 @@
 @import "tailwindcss";
 
-:root {
+@theme {
   /* Quiet Gallery – colors derived from the Instagram photos */
-  --bg-light: #FBFAF7;      /* almost white, warm */
-  --bg-section: #F3EFE9;    /* warm greige for alternating sections */
-  --text-dark: #2C2620;     /* almost black, soft */
-  --text-muted: #6B6459;    /* muted text */
-  --accent-cool: #A8B4B8;   /* dusty blue-grey */
-  --accent-warm: #7A5C54;   /* muted bordeaux-brown */
-  --border: #E4DCCF;        /* delicate dividers */
+  --color-cream: #fbfaf7; /* almost white, warm — page background */
+  --color-sand: #f3efe9; /* warm greige for alternating sections */
+  --color-ink: #2c2620; /* almost black, soft */
+  --color-clay: #6b6459; /* muted text */
+  --color-mist: #a8b4b8; /* dusty blue-grey accent */
+  --color-bordeaux: #7a5c54; /* muted bordeaux-brown accent */
+  --color-line: #e4dccf; /* delicate dividers */
 
-  --radius-pill: 9999px;
-  --maxw: 1200px;
+  --container-page: 75rem; /* 1200px — max-w-page */
+
+  /* The Armenian font kicks in automatically via the fallback chain */
+  --font-heading: var(--font-heading-latin), var(--font-heading-arm), serif;
+  --font-body: var(--font-body-latin), var(--font-body-arm), sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    line-height: 1.15;
+  }
 }
 
-body {
-  background: var(--bg-light);
-  color: var(--text-dark);
-  font-family: var(--font-body), sans-serif;
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-}
+@layer components {
+  /* pill button, consistent across the site */
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.75rem;
+    border-radius: 9999px;
+    background: var(--color-ink);
+    color: var(--color-cream);
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
 
-h1, h2, h3, h4 {
-  font-family: var(--font-heading), serif;
-  font-weight: 500;
-  line-height: 1.15;
-  color: var(--text-dark);
-}
+  .btn:hover {
+    opacity: 0.85;
+  }
 
-/* layout helpers */
-.container {
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-.section {
-  padding: 5rem 0;
-}
-
-.section-alt {
-  background: var(--bg-section);
-}
-
-/* pill button, consistent across the site */
-.btn {
-  display: inline-block;
-  padding: 0.75rem 1.75rem;
-  border-radius: var(--radius-pill);
-  background: var(--text-dark);
-  color: var(--bg-light);
-  font-size: 0.95rem;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-  cursor: pointer;
-  border: none;
-}
-
-.btn:hover {
-  opacity: 0.85;
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--text-dark);
-  border: 1px solid var(--text-dark);
-}
-
-a {
-  color: inherit;
+  .btn-outline {
+    background: transparent;
+    color: var(--color-ink);
+    border: 1px solid var(--color-ink);
+  }
 }
