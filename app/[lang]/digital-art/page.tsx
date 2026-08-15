@@ -19,14 +19,21 @@ type Work = {
   cols: string
 }
 
+/*
+  Row logic (desktop):
+  1. small left (1-4)        + large right (8-12), staggered
+  2. tight pair (1-3, 4-6)   + medium right (9-12), middle one staggered
+  3. large left (1-5) + tall narrow accent (7-8) + small right (10-12)
+  One stagger height everywhere: mt-16.
+*/
 const works: Work[] = [
   { src: '/art/jay.jpg', title: 'Jay', year: '2026', cols: 'md:col-span-4' },
-  { src: '/art/kingfisher.jpg', title: 'Kingfisher', year: '2026', cols: 'md:col-span-5 md:col-start-8 md:mt-24' },
+  { src: '/art/kingfisher.jpg', title: 'Kingfisher', year: '2026', cols: 'md:col-span-5 md:col-start-8 md:mt-16' },
   { src: '/art/blue-tit.jpg', title: 'Blue Tit', year: '2026', cols: 'md:col-span-3 md:col-start-1' },
-  { src: '/art/oropendola.jpg', title: 'Oropendola', year: '2026', cols: 'md:col-span-3 md:col-start-5 md:mt-16' },
+  { src: '/art/oropendola.jpg', title: 'Oropendola', year: '2026', cols: 'md:col-span-3 md:col-start-4 md:mt-16' },
   { src: '/art/raccoon.jpg', title: 'Raccoon', year: '2026', cols: 'md:col-span-4 md:col-start-9' },
-  { src: '/art/flying-fox.jpg', title: 'Flying Fox', year: '2026', cols: 'md:col-span-3 md:col-start-2 md:mt-20' },
-  { src: '/art/red-fox.jpg', title: 'Red Fox', year: '2026', cols: 'md:col-span-5 md:col-start-7 md:mt-24' },
+  { src: '/art/flying-fox.jpg', title: 'Flying Fox', year: '2026', cols: 'md:col-span-5 md:col-start-1' },
+  { src: '/art/red-fox.jpg', title: 'Red Fox', year: '2026', cols: 'md:col-span-5 md:col-start-8' },
 ]
 
 export async function generateMetadata({
@@ -46,7 +53,12 @@ export default async function DigitalArtPage({
       <div className="mx-auto max-w-page px-6">
         {/* Heading row: title left, intro right (editorial style) */}
         <div className="grid gap-6 md:grid-cols-2 md:items-end">
-          <h1 className="text-[clamp(2rem,5vw,3.5rem)]">{t.digital.title[lang]}</h1>
+          <h1 className="text-[clamp(2rem,5vw,3.5rem)]">
+            {t.digital.title[lang]}
+            <sup className="ml-3 font-body text-sm tracking-wide text-clay">
+              ( {works.length} )
+            </sup>
+          </h1>
           <p className="text-sm leading-relaxed text-clay md:max-w-xs md:justify-self-end">
             {t.digital.intro[lang]}
           </p>
