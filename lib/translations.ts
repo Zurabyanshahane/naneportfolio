@@ -60,6 +60,16 @@ export const t = {
   },
 
   home: {
+    // Hero. RU/HY here are a first pass — please check the wording.
+    eyebrow: { en: 'Artist · Yerevan', ru: 'Художница · Ереван', hy: 'Նկարիչ · Երևան' },
+    greeting: { en: "Hi, I'm Nane", ru: 'Привет, я Нане', hy: 'Բարև, ես Նանեն եմ' },
+    roles: {
+      en: 'Doll maker · Theatre designer · Illustrator',
+      ru: 'Мастер кукол · Театральный художник · Иллюстратор',
+      hy: 'Տիկնիկագործ · Թատերական ձևավորող · Նկարազարդող',
+    },
+    aboutMe: { en: 'More about me', ru: 'Подробнее обо мне', hy: 'Ավելին իմ մասին' },
+
     heroTitle: { en: 'Soul of a Doll', ru: 'Soul of a Doll', hy: 'Soul of a Doll' },
     heroSubtitle: {
       en: 'Handmade dolls, made one at a time.',
