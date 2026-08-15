@@ -153,7 +153,7 @@ export const t = {
   about: {
     title: { en: 'About', ru: 'Обо мне', hy: 'Իմ մասին' },
     body: {
-      en: "I'm [Name], an artist working between three worlds: doll-making, theatre, and digital art. I make handmade dolls with soul — each one unique, each one carrying a little of the story I gave it. [Placeholder — add your story.]",
+      en: "I'm Nane, an artist working between three worlds: doll-making, theatre, and digital art. I make handmade dolls with soul — each one unique, each one carrying a little of the story I gave it. [Placeholder — add your story.]",
       ru: '[RU placeholder]',
       hy: '[HY placeholder]',
     },
