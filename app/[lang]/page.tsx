@@ -47,13 +47,17 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       title: t.nav.theatre[lang],
       intro: t.home.theatreIntro[lang],
       card: "/theatre/white-mask-profile.jpg",
-      // Left-facing, front-facing, right-facing. Swap in cut-out PNGs
-      // (no background, no hand) for the effect to really work.
+      // Cut-out PNGs. Only two clean ones exist, so the three-quarter view
+      // is mirrored to cover the opposite direction.
       head: [
-        "/theatre/white-mask-profile.jpg",
-        "/theatre/white-mask-front.jpg",
-        "/theatre/white-mask-angle.jpg",
-      ] as [string, string, string],
+        { src: "/theatre/white-mask-angle.png", mirrored: true },
+        { src: "/theatre/white-mask-front.png" },
+        { src: "/theatre/white-mask-angle.png" },
+      ] as [
+        { src: string; mirrored?: boolean },
+        { src: string; mirrored?: boolean },
+        { src: string; mirrored?: boolean },
+      ],
     },
     {
       href: `/${lang}/digital-art`,
@@ -208,7 +212,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                   {area.head ? (
                     // The mask turns to follow the cursor
                     <TurningHead
-                      images={area.head}
+                      views={area.head}
                       alt={area.title}
                       className="mx-auto w-full max-w-xs md:max-w-none"
                     />

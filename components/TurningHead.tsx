@@ -3,28 +3,28 @@
 import { useEffect, useRef, useState } from 'react'
 
 /*
-  Three photographs of the same head, taken from different angles. As the
-  cursor moves left to right across the window we cross-fade between them,
-  so the head appears to turn and follow you.
+  Cut-out views of the same head. As the cursor moves left to right across
+  the window we cross-fade between them, so the head turns to follow you.
 
-  The images should be cut out (transparent PNG, no background, no hand) —
-  otherwise the backgrounds cross-fade too and the illusion breaks.
+  Only two clean cut-outs exist (front and three-quarter), so the
+  three-quarter view is mirrored to stand in for the opposite direction.
 */
+type View = { src: string; mirrored?: boolean }
+
 type Props = {
-  /** Left-facing, front-facing, right-facing — in that order. */
-  images: [string, string, string]
+  /** Turned left, facing front, turned right — in that order. */
+  views: [View, View, View]
   alt: string
   className?: string
 }
 
-export default function TurningHead({ images, alt, className = '' }: Props) {
+export default function TurningHead({ views, alt, className = '' }: Props) {
   // 0 = fully left, 0.5 = straight on, 1 = fully right
   const [turn, setTurn] = useState(0.5)
   const frame = useRef<number | null>(null)
 
   useEffect(() => {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduced) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const onMove = (e: PointerEvent) => {
       if (frame.current !== null) return
@@ -49,11 +49,11 @@ export default function TurningHead({ images, alt, className = '' }: Props) {
 
   return (
     <div className={`relative ${className}`}>
-      {images.map((src, i) => (
+      {views.map((view, i) => (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          key={src}
-          src={src}
+          key={i}
+          src={view.src}
           alt={i === 1 ? alt : ''}
           aria-hidden={i === 1 ? undefined : true}
           className={
@@ -64,7 +64,9 @@ export default function TurningHead({ images, alt, className = '' }: Props) {
           style={{
             opacity: opacities[i],
             // A touch of drift, so it reads as movement and not just a fade
-            transform: `translateX(${(turn - 0.5) * 10}px)`,
+            transform: `translateX(${(turn - 0.5) * 12}px) scaleX(${
+              view.mirrored ? -1 : 1
+            })`,
             transition: 'opacity 120ms linear, transform 200ms ease-out',
           }}
         />
