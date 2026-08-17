@@ -34,6 +34,7 @@ const works: Work[] = [
   { src: '/art/raccoon.jpg', title: 'Raccoon', year: '2026', cols: 'md:col-span-4 md:col-start-9' },
   { src: '/art/flying-fox.jpg', title: 'Flying Fox', year: '2026', cols: 'md:col-span-5 md:col-start-1' },
   { src: '/art/red-fox.jpg', title: 'Red Fox', year: '2026', cols: 'md:col-span-5 md:col-start-8' },
+  { src: '/art/girl-with-swallows.jpg', title: 'Girl with Swallows', year: '2026', cols: 'md:col-span-3 md:col-start-5 md:mt-16 max-md:mx-auto max-md:max-w-56' },
 ]
 
 export async function generateMetadata({

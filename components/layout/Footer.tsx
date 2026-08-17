@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { t, type Lang } from '@/lib/translations'
 
 export default function Footer({ lang }: { lang: Lang }) {
@@ -19,12 +18,6 @@ export default function Footer({ lang }: { lang: Lang }) {
           >
             Instagram
           </a>
-          <Link href={`/${lang}/imprint`} className="transition-colors hover:text-ink">
-            {t.footer.imprint[lang]}
-          </Link>
-          <Link href={`/${lang}/privacy`} className="transition-colors hover:text-ink">
-            {t.footer.privacy[lang]}
-          </Link>
         </div>
       </div>
     </footer>

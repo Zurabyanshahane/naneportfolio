@@ -3,6 +3,30 @@ import { requireLang } from '@/lib/i18n'
 import { pageMetadata } from '@/lib/seo'
 import { t } from '@/lib/translations'
 
+const gallery = [
+  '/dolls/clown-girl.jpg',
+  '/dolls/hedgehog-with-net.jpg',
+  '/dolls/blue-haired-girl.jpg',
+  '/dolls/rabbit-in-velvet.jpg',
+  '/dolls/hedgehog-portrait.jpg',
+  '/dolls/rabbit-with-baby.jpg',
+  '/dolls/red-haired-girl.jpg',
+  '/dolls/snow-baby.jpg',
+  '/dolls/christmas-elf.jpg',
+  '/dolls/unicorn-lavender.jpg',
+  '/dolls/balloon-and-rabbit.jpg',
+  '/dolls/winter-ornaments.jpg',
+]
+
+// One photo per step of the process below.
+const stepImages = [
+  '/theatre/gexeckuhi/goblin-mask-in-progress.jpg',
+  '/masks/white-masks-group.jpg',
+  '/dolls/snow-baby.jpg',
+  '/dolls/hedgehog-with-net.jpg',
+  '/dolls/clown-girl.jpg',
+]
+
 export async function generateMetadata({
   params,
 }: PageProps<'/[lang]/dolls'>): Promise<Metadata> {
@@ -12,9 +36,6 @@ export async function generateMetadata({
 
 export default async function DollsPage({ params }: PageProps<'/[lang]/dolls'>) {
   const lang = await requireLang(params)
-
-  // Placeholder gallery — add real images later
-  const gallery = [1, 2, 3, 4, 5, 6]
 
   return (
     <>
@@ -26,17 +47,19 @@ export default async function DollsPage({ params }: PageProps<'/[lang]/dolls'>) 
         </div>
       </section>
 
-      {/* Gallery */}
+      {/* Gallery — masonry, so nothing is cropped */}
       <section className="bg-sand py-12 pt-8 md:py-20 md:pt-12">
         <div className="mx-auto max-w-page px-6">
-          <div className="grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
-            {gallery.map((n) => (
-              <div
-                key={n}
-                className="flex aspect-[3/4] items-center justify-center rounded-lg border border-line bg-cream text-xs text-mist"
-              >
-                [ doll {n} ]
-              </div>
+          <div className="columns-2 gap-3 md:columns-3 md:gap-4 lg:columns-4">
+            {gallery.map((src) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={src}
+                src={src}
+                alt=""
+                loading="lazy"
+                className="mb-3 block w-full break-inside-avoid md:mb-4"
+              />
             ))}
           </div>
         </div>
@@ -52,14 +75,15 @@ export default async function DollsPage({ params }: PageProps<'/[lang]/dolls'>) 
           <div className="flex flex-col gap-10 md:gap-12">
             {t.dolls.steps.map((step, i) => (
               <div key={i} className="grid items-center gap-4 md:grid-cols-2 md:gap-8">
-                {/* Placeholder image for this step */}
-                <div
-                  className={`flex aspect-[4/3] items-center justify-center rounded-lg bg-sand text-xs text-mist ${
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={stepImages[i]}
+                  alt={step.title[lang]}
+                  loading="lazy"
+                  className={`aspect-[4/3] w-full rounded-sm object-cover ${
                     i % 2 === 0 ? '' : 'md:order-1'
                   }`}
-                >
-                  [ step {i + 1} ]
-                </div>
+                />
                 <div>
                   <div className="text-xs tracking-[0.1em] text-bordeaux uppercase">
                     {String(i + 1).padStart(2, '0')}

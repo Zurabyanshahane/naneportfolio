@@ -3,11 +3,10 @@
 import { useEffect, useRef, useState } from 'react'
 
 /*
-  Cut-out views of the same head. As the cursor moves left to right across
-  the window we cross-fade between them, so the head turns to follow you.
-
-  Only two clean cut-outs exist (front and three-quarter), so the
-  three-quarter view is mirrored to stand in for the opposite direction.
+  Cut-out views of the same head, switched on a timer so the head looks
+  around by itself: front, left, front, right — the rhythm of someone
+  idly glancing about. It snaps between the three positions rather than
+  blending, so it reads as turning rather than dissolving.
 */
 type View = { src: string; mirrored?: boolean }
 
@@ -18,37 +17,56 @@ type Props = {
   className?: string
 }
 
+// Indices into `views`. Front recurs, so the head always returns to centre.
+const SEQUENCE = [1, 0, 1, 2]
+const STEP_MS = 1600
+
 export default function TurningHead({ views, alt, className = '' }: Props) {
-  // 0 = fully left, 0.5 = straight on, 1 = fully right
-  const [turn, setTurn] = useState(0.5)
-  const frame = useRef<number | null>(null)
+  const [index, setIndex] = useState(1)
+  const container = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    const onMove = (e: PointerEvent) => {
-      if (frame.current !== null) return
-      frame.current = requestAnimationFrame(() => {
-        frame.current = null
-        setTurn(Math.min(1, Math.max(0, e.clientX / window.innerWidth)))
-      })
+    const node = container.current
+    if (!node) return
+
+    let step = 0
+    let timer: ReturnType<typeof setInterval> | null = null
+
+    const start = () => {
+      if (timer !== null) return
+      timer = setInterval(() => {
+        step = (step + 1) % SEQUENCE.length
+        setIndex(SEQUENCE[step])
+      }, STEP_MS)
     }
 
-    window.addEventListener('pointermove', onMove, { passive: true })
+    const stop = () => {
+      if (timer === null) return
+      clearInterval(timer)
+      timer = null
+    }
+
+    // Turning is the default, so the head still works if the observer
+    // below never reports anything; the observer only pauses it while
+    // scrolled out of sight.
+    start()
+
+    const observer = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? start() : stop()),
+      { threshold: 0.2 }
+    )
+    observer.observe(node)
+
     return () => {
-      window.removeEventListener('pointermove', onMove)
-      if (frame.current !== null) cancelAnimationFrame(frame.current)
+      observer.disconnect()
+      stop()
     }
   }, [])
 
-  // Cross-fade: left→front over the first half, front→right over the second
-  const opacities =
-    turn < 0.5
-      ? [1 - turn * 2, turn * 2, 0]
-      : [0, 1 - (turn - 0.5) * 2, (turn - 0.5) * 2]
-
   return (
-    <div className={`relative ${className}`}>
+    <div ref={container} className={`relative ${className}`}>
       {views.map((view, i) => (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -62,12 +80,8 @@ export default function TurningHead({ views, alt, className = '' }: Props) {
               : 'absolute inset-0 h-full w-full object-contain'
           }
           style={{
-            opacity: opacities[i],
-            // A touch of drift, so it reads as movement and not just a fade
-            transform: `translateX(${(turn - 0.5) * 12}px) scaleX(${
-              view.mirrored ? -1 : 1
-            })`,
-            transition: 'opacity 120ms linear, transform 200ms ease-out',
+            visibility: i === index ? 'visible' : 'hidden',
+            transform: view.mirrored ? 'scaleX(-1)' : undefined,
           }}
         />
       ))}

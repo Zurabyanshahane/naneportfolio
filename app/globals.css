@@ -64,4 +64,42 @@
     color: var(--color-ink);
     border: 1px solid var(--color-ink);
   }
+
+  /*
+    Surfaces as it scrolls into view and dissolves again as it leaves —
+    driven entirely by scroll position, no JavaScript.
+
+    Browsers without scroll-driven animations simply show the element,
+    so nothing is ever hidden from them. Motion-sensitive visitors are
+    excluded too.
+  */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .scroll-surface {
+        animation: scroll-surface linear both;
+        animation-timeline: view();
+        animation-range: entry 0% exit 85%;
+      }
+    }
+  }
+}
+
+/* Rises quickly, holds only briefly, then dissolves well before the
+   element has finished scrolling past — so the next section arrives
+   soon and the photo is never fully parked on screen. */
+@keyframes scroll-surface {
+  0% {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+  20%,
+  42% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  68%,
+  100% {
+    opacity: 0;
+    transform: scale(0.97);
+  }
 }

@@ -50,12 +50,4 @@
   to = "/en/contact"
   status = 301
 
-[[redirects]]
-  from = "/imprint"
-  to = "/en/imprint"
-  status = 301
 
-[[redirects]]
-  from = "/privacy"
-  to = "/en/privacy"
-  status = 301
